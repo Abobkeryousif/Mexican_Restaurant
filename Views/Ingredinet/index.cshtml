@@ -5,3 +5,31 @@
     }
 
 <h1>Ingredients</h1>
+<a asp-action="Create">Add Ingredients</a>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Name)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach(Ingredient i in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => i.Name)
+                </td>
+                <td> 
+                    <div class="p-2">
+                    <a asp-action="Details" asp-route-id="@i.IngredientId" class="btn btn-primary">Details</a>
+                    <a asp-action="Edit" asp-route-id="@i.IngredientId" class="btn btn-warning">Edit</a>
+                    <a asp-action="Delete" asp-route-id="@i.IngredientId" class="btn btn-danger">Delete</a>
+                    </div>
+                <td>
+            </tr>
+        }
+    </tbody>
+</table>
