@@ -1,0 +1,60 @@
+﻿@model IEnumerable<Product>
+@{
+    ViewBag.Title = "Tequilas Manu Items";
+}
+
+@functions{
+    string GetDeleteModalId(Product prod)
+    {
+        return "#deleteModal" + prod.ProductId;
+    }
+
+    string GetModalId(Product prod)
+    {
+        return "deleteModal" + prod.ProductId;
+    }
+}
+
+<h2>Tequilas Manu Items</h2>
+<a asp-action="AddEdit" asp-controller="product" class="btn btn-primary m-4">Create New Item</a>
+
+<div class="row">
+@foreach (Product prod in Model)
+{
+    <div class="col-md-4">
+        <form asp-action="delete" asp-controller="product" method="post">
+            <input type="hidden" asp-for="@prod.ProductId" name="id" />
+            <div class="card mb-4" style="width: 20rem;">
+                <img src="@Url.Content("~/images/"+ prod?.ImageUrl)" class="card-img-top fixed-image-height" alt="@prod?.Description"/>
+                <div class="card-body">
+                    <h5 class="card-title">@prod?.Name</h5>
+                    <p class="card-text">@prod.Description</p>
+                    <p class="card-text">@prod.Price.ToString("C")</p>
+                    <p class="card-text">Quantity In Stock: @prod.Stock</p>
+                    <a class="btn btn-warning text-decoration-none" asp-controller="product" asp-action="AddEdit" asp-route-id="@prod.ProductId"><i class="bi bi-pencil-fill">Edit</i></a>
+                        <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="@GetDeleteModalId(prod)">
+                        <i class="bi bi-trash">Delete</i>
+                    </button>
+                        <!-- Modal -->
+                        <div class="modal fade" id="@GetModalId(prod)" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                            <div class="modal-dialog">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h1 class="modal-title fs-5" id="exampleModalLabel">Are You Sure to Delete @prod.Name</h1>
+                                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancle</button>
+                                        <button type="submit" class="btn btn-danger">Delete</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                </div>
+            </div>
+        </form>
+    </div>
+    
+}
+</div>
+<a asp-action="Index" asp-controller="ingredinet" class="btn btn-info text-decoration-none mt-4">Back To List</a>
